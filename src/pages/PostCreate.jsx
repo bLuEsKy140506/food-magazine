@@ -188,7 +188,7 @@ export default function PostCreate() {
                     <div className="add-ingredient">
                       <h3>Fill-up the ingredients🍅 here</h3>
                       {ingredientsArray.map((element, index) => (
-                        <div className="form-inline" key={index}>
+                        <div className="form-inline " key={index}>
                           <TextField
                             label={`Ingredient-${index + 1}-quantity`}
                             name="quantity"
@@ -211,12 +211,14 @@ export default function PostCreate() {
                           />
                         </div>
                       ))}
-                      <Button
-                        variant="contained"
-                        onClick={() => addFormFieldsIng()}
-                      >
-                        Add new ingredient
-                      </Button>
+                      <div className="button-color-modify">
+                        <Button
+                          variant="contained"
+                          onClick={() => addFormFieldsIng()}
+                        >
+                          Add new ingredient
+                        </Button>
+                      </div>
                     </div>
                     <div className="recipe-image">
                       <figure className="add-image-background">
@@ -259,13 +261,15 @@ export default function PostCreate() {
                         ) : null}
                       </div>
                     ))}
-                    <Button
-                      variant="contained"
-                      onClick={() => addFormFieldsDirec()}
-                    >
-                      {" "}
-                      Add new direction
-                    </Button>
+                    <div className="button-color-modify">
+                      <Button
+                        variant="contained"
+                        onClick={() => addFormFieldsDirec()}
+                      >
+                        {" "}
+                        Add new direction
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="button-section"></div>

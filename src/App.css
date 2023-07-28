@@ -49,3 +49,29 @@ textarea {
   text-align: center;
   font-size: 1.5rem;
 }
+
+.image-uploader {
+  width: 410px;
+  height: 320px;
+  padding: 10px;
+  max-width: 100%;
+  background: transparent;
+  background-size: cover;
+  border-radius: 5%;
+  position: relative;
+}
+.image-uploader input[type="file"] {
+  display: none;
+}
+.image-button {
+  cursor: pointer;
+  padding: 12px 35px;
+  border: 1px solid #0266ff;
+  color: #0266ff;
+  background: transparent !important;
+  border-radius: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

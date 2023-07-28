@@ -184,6 +184,14 @@
   margin: 30px 10px;
 }
 
+.button-color-modify button {
+  background-color: lightseagreen;
+}
+
+.button-color-modify button:hover {
+  background-color: rgb(27, 151, 145);
+}
+
 @media only screen and (max-width: 910px) {
   .App,
   .route-layout {
