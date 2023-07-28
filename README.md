@@ -19,4 +19,7 @@ tag 1.1 and merge it with the development branch. Include the release informatio
 
 > Version 1.2: Implement functions to add, edit, and delete recipes
 
+Develop functions for adding, removing, and editing a food recipe.
+To develop these functions, you can create an array that contains objects. Each object should have a recipe name, a category, and an array with ngredients. The ingredients array should contain objects, and each object should consist of an ingredient name and a measurement.
+
 > Version 1.3: Implement filter and search functions
