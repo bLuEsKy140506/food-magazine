@@ -18,24 +18,19 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RouteLayout />}>
       <Route index element={<RecipeList />} />
-      {/* <Route index element={<RecipeList />} loader={recipeListLoader} /> */}
+
       <Route
         path="recipes/:id"
         element={<RecipeDetails />}
         loader={recipeIDdetails}
       />
-      {/* <Route
-        path="recipes/:id"
-        element={<RecipeDetails />}
-        loader={recipeDetailLoader}
-      /> */}
+
       <Route path="recipes/post-new" element={<PostCreate />} />
       <Route
         path="recipes/post-edit/:id"
         element={<PostEdit />}
         loader={recipeID}
       />
-      {/* <Route path="recipes/new-recipe" element={<RecipeNew />} /> */}
 
       <Route path="*" element={<NotFound />} />
     </Route>

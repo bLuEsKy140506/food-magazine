@@ -5,9 +5,6 @@ import "./RecipeDetails.css";
 
 export default function RecipeDetails() {
   const recipeID = useLoaderData();
-  // const [id, setId] = useState("");
-
-  //id generator copied from react router tutorial
 
   return (
     <>

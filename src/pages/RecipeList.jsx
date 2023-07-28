@@ -1,5 +1,3 @@
-// import { useState, useEffect } from "react";
-// import { useLoaderData } from "react-router-dom";
 import { Link } from "react-router-dom";
 //date formatter
 import moment from "moment";
@@ -21,7 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import SearchBox from "../components/search-box/search-box.component";
 import "./RecipeList.css";
-// import commentIcon from "./comment-icon.svg";
+
 const style = {
   position: "absolute",
   top: "50%",
