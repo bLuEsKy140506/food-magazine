@@ -22,7 +22,6 @@ import { updateRecipe } from "../store/reducers/recipes";
 
 export default function PostEdit() {
   const recipeID = useLoaderData();
-  // const [id, setId] = useState("");
   const [url, setUrl] = useState(recipeID.imageUrl);
   const [author, setAuthor] = useState(recipeID.author);
   const [title, setTitle] = useState(recipeID.title);
@@ -78,7 +77,7 @@ export default function PostEdit() {
   const handleChangeCategory = (event) => {
     setLevel(event.target.value);
   };
-  //buttons function to clickable from unclickable
+
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     let datetime = new Date();
@@ -101,20 +100,6 @@ export default function PostEdit() {
     );
 
     alert("This recipe has been EDITED✍️");
-    // console.log(
-    //   title,
-    //   author,
-    //   text,
-    //   level,
-    //   preptime,
-    //   yields,
-    //   ingredientsArray,
-    //   directionArray,
-    //   url,
-    //   recipeID.id,
-    //   datetime
-    // );
-    // TODO: add a dispatch call to an appropriate redux action here
   });
 
   return (

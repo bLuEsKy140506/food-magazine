@@ -1,5 +1,3 @@
-// import { useState, useEffect } from "react";
-// import { useLoaderData } from "react-router-dom";
 import { Link } from "react-router-dom";
 //date formatter
 import moment from "moment";
@@ -19,7 +17,9 @@ import FormGroup from "@mui/material/FormGroup";
 import Modal from "@mui/material/Modal";
 import EditIcon from "@mui/icons-material/Edit";
 
-// import commentIcon from "./comment-icon.svg";
+import SearchBox from "../components/search-box/search-box.component";
+import "./RecipeList.css";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -35,7 +35,9 @@ const style = {
 
 export default function RecipeList() {
   const dispatch = useDispatch();
-
+  const [searchField, setSearchField] = useState(""); //[value, setValue]
+  const [filteredRecipe, setFilterRecipe] = useState([]);
+  const [query, setQuery] = useState("all"); //use for filtering favorite cards
   const recipes = useSelector((state) => state.recipes);
 
   useEffect(() => {
@@ -59,12 +61,79 @@ export default function RecipeList() {
       return y - x;
     });
 
+  useEffect(() => {
+    const newfilteredList = newRecipeData.filter((recipe) => {
+      return recipe.title.toLocaleLowerCase().includes(searchField);
+    });
+    if (searchField === "") {
+      setFilterRecipe(newRecipeData);
+    } else {
+      setFilterRecipe(newfilteredList);
+    }
+  }, [searchField, query]);
+
+  const onSearchChange = (event) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
+  };
+
+  let filteredList1 =
+    searchField === "" && query === "all"
+      ? newRecipeData
+      : searchField !== "" && query === "all"
+      ? filteredRecipe
+      : filteredRecipe.filter((item) => item.level === query);
+
+  let finalFilteredList =
+    (searchField === "" && query === "all") || searchField !== ""
+      ? filteredList1
+      : filteredList1.filter((item) => item.level === query);
+  const allPostFormat = query === "all" ? "button-dynamic" : null;
+  const easyFormat = query === "Easy" ? "button-dynamic" : null;
+  const mediumFormat = query === "Medium" ? "button-dynamic" : null;
+  const hardFormat = query === "Hard" ? "button-dynamic" : null;
+
+  // setter function - all post
+  const setQueryAll = () => {
+    setQuery("all");
+  };
+  const setQueryEasy = () => {
+    setQuery("Easy");
+  };
+  const setQueryMedium = () => {
+    setQuery("Medium");
+  };
+
+  const setQueryHard = () => {
+    setQuery("Hard");
+  };
+
   return (
     <>
       <div className="post-layout">
         <p>recipe listsss</p>
         <div className="flex-row post-buttons">
-          <div className="flex-row post-filter"></div>
+          <div className="flex-row post-filter">
+            {/* <button className={allPostFormat}>All posts</button>
+          <button className={favoriteFormat}>Favorites</button> */}
+            <button onClick={setQueryAll} className={allPostFormat}>
+              All Recipes
+            </button>
+            <button onClick={setQueryEasy} className={easyFormat}>
+              Easy
+            </button>
+            <button onClick={setQueryMedium} className={mediumFormat}>
+              Medium
+            </button>
+            <button onClick={setQueryHard} className={hardFormat}>
+              Hard
+            </button>
+            <SearchBox
+              className="search-box"
+              onChangeHandler={onSearchChange}
+              placeholder="search recipe"
+            />
+          </div>
 
           <Link to="recipes/post-new">
             <Button variant="contained">
@@ -72,7 +141,7 @@ export default function RecipeList() {
             </Button>
           </Link>
         </div>
-        <PaginatedItems itemsPerPage={4} arrayObject={newRecipeData} />
+        <PaginatedItems itemsPerPage={4} arrayObject={finalFilteredList} />
       </div>
     </>
   );

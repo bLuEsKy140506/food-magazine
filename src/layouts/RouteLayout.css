@@ -1,10 +1,12 @@
 .route-layout {
+  background-image: url("../pages/louis-hansel-wOISTbCpUCc-unsplash.jpg");
+
+  background-size: cover;
   color: black;
   position: relative;
   top: 0;
 
   height: auto;
-  width: 100vw;
 }
 
 .logo {
