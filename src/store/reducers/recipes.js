@@ -15,6 +15,7 @@ export const updateRecipe = createAsyncThunk("todo/update", (id) => {
   // TODO: return a call  to corresponding API method i.e. recipesAPI.fetchAll()
 });
 export const addRecipe = createAsyncThunk("todo/add", (todo) => {
+  console.log(todo);
   recipesAPI.createOne(todo);
 });
 
@@ -23,7 +24,12 @@ const initialState = [];
 const todosSlice = createSlice({
   name: "recipes",
   initialState,
-  reducers: {},
+  reducers: {
+    add(state, action) {
+      state = action.payload;
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchRecipes.fulfilled, (state, action) => {
       Object.assign(state, action.payload);
@@ -53,4 +59,5 @@ const todosSlice = createSlice({
   },
 });
 
+export const { add } = todosSlice.actions;
 export default todosSlice.reducer;

@@ -1,3 +1,4 @@
+// import { useState, useEffect } from "react";
 // import { useLoaderData } from "react-router-dom";
 import { Link } from "react-router-dom";
 //date formatter
@@ -7,9 +8,9 @@ import { FaRegWindowClose } from "react-icons/fa";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PaginatedItems from "../components/Pagination";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchRecipes } from "../store/reducers/recipes";
+import { fetchRecipes, deleteRecipe } from "../store/reducers/recipes";
 
 import Box from "@mui/material/Box";
 
@@ -18,6 +19,7 @@ import FormGroup from "@mui/material/FormGroup";
 import Modal from "@mui/material/Modal";
 import EditIcon from "@mui/icons-material/Edit";
 
+// import commentIcon from "./comment-icon.svg";
 const style = {
   position: "absolute",
   top: "50%",
@@ -77,12 +79,36 @@ export default function RecipeList() {
 }
 
 export function Items({ currentItems }) {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [idToDelete, setidToDelete] = useState("");
+
+  const handleClose = useCallback(() => setOpen(false), []);
+
+  const handleOpen = useCallback((id) => {
+    setOpen(true);
+    setidToDelete(id);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      handleClose();
+    },
+    [handleClose]
+  );
+
+  const onDeleteClick = () => {
+    // TODO: Dispacth corresponding action
+    dispatch(deleteRecipe(idToDelete));
+  };
   return (
     <>
       {currentItems &&
         currentItems.map((item, index) => (
-          <div className="post-card">
-            <Link to={`/recipes/sample`}>
+          <div className="post-card" key={index}>
+            <Link to={`/recipes/${item.id}`} key={`${index}-${item}`}>
               <figure className="post-card-img">
                 <img
                   src={item.imageUrl}
@@ -103,13 +129,21 @@ export function Items({ currentItems }) {
               </div>
             </Link>
 
-            <FaRegWindowClose size={30} className="item-cross-allList" />
-            <Link to={`/recipes/post-edit/sample`}>
+            <FaRegWindowClose
+              size={30}
+              className="item-cross-allList"
+              onClick={(e) => handleOpen(item.id)}
+            />
+            <Link
+              to={`/recipes/post-edit/${item.id}`}
+              key={`${item}+${index}`}
+              className="edit-icon"
+            >
               <EditIcon className="edit-icon" />
             </Link>
           </div>
         ))}
-      <Modal>
+      <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <p
             style={{
@@ -120,9 +154,10 @@ export function Items({ currentItems }) {
           >
             Confirmed to delete
           </p>
-          <form>
+          <form onSubmit={handleSubmit}>
             <FormGroup>
               <Button
+                onClick={onDeleteClick}
                 variant="contained"
                 type="submit"
                 style={{ backgroundColor: "red" }}
