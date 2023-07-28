@@ -101,20 +101,6 @@ export default function PostCreate() {
       })
     );
     alert("This recipe has been ADDED📝");
-    // console.log(
-    //   title,
-    //   author,
-    //   text,
-    //   level,
-    //   preptime,
-    //   yields,
-    //   ingredientsArray,
-    //   directionArray,
-    //   url,
-    //   id,
-    //   datetime
-    // );
-    // TODO: add a dispatch call to an appropriate redux action here
   });
 
   return (

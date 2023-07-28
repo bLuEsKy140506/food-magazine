@@ -3,8 +3,13 @@
   justify-content: space-between;
 }
 
+.link-back {
+  align-self: flex-start;
+  margin-left: 4rem;
+}
+
 .recipes-display {
-  background-color: rgba(255, 255, 255, 0.844);
+  background-color: rgba(255, 255, 255, 0.942);
 }
 .new-detail {
   flex-direction: row-reverse;

@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 import "./RecipeDetails.css";
 
-i;
-
 export default function RecipeDetails() {
   const recipeID = useLoaderData();
   // const [id, setId] = useState("");
