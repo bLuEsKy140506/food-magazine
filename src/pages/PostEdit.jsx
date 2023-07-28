@@ -222,12 +222,14 @@ export default function PostEdit() {
                           />
                         </div>
                       ))}
-                      <Button
-                        variant="contained"
-                        onClick={() => addFormFieldsIng()}
-                      >
-                        Add new ingredient
-                      </Button>
+                      <div className="button-color-modify">
+                        <Button
+                          variant="contained"
+                          onClick={() => addFormFieldsIng()}
+                        >
+                          Add new ingredient
+                        </Button>
+                      </div>
                     </div>
                     <div className="recipe-image">
                       <figure className="add-image-background">
@@ -274,13 +276,15 @@ export default function PostEdit() {
                         />
                       </div>
                     ))}
-                    <Button
-                      variant="contained"
-                      onClick={() => addFormFieldsDirec()}
-                    >
-                      {" "}
-                      Add new direction
-                    </Button>
+                    <div className="button-color-modify">
+                      <Button
+                        variant="contained"
+                        onClick={() => addFormFieldsDirec()}
+                      >
+                        {" "}
+                        Add new direction
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="button-section button-format"></div>
