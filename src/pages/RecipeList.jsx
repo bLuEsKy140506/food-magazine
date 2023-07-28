@@ -104,8 +104,9 @@ export function Items({ currentItems }) {
             </Link>
 
             <FaRegWindowClose size={30} className="item-cross-allList" />
-
-            <EditIcon className="edit-icon" />
+            <Link to={`/recipes/post-edit/sample`}>
+              <EditIcon className="edit-icon" />
+            </Link>
           </div>
         ))}
       <Modal>
