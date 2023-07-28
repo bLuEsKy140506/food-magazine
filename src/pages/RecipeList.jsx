@@ -111,7 +111,6 @@ export default function RecipeList() {
   return (
     <>
       <div className="post-layout">
-        <p>recipe listsss</p>
         <div className="flex-row post-buttons">
           <div className="flex-row post-filter">
             {/* <button className={allPostFormat}>All posts</button>
