@@ -24,7 +24,7 @@ export const recipesAPI = {
 
   //POSTING ---------------------------------------
   createOne: (recipe) => {
-    const data = todo;
+    const data = recipe;
 
     const options = {
       method: "POST",

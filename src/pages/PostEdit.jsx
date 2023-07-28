@@ -1,4 +1,11 @@
+import React, { useState, useCallback } from "react";
+import moment from "moment";
+import { useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { PostImage } from "../components/PostImage";
+import "./RecipeDetails";
 import "./PostCreate.css";
+import "./PostEdit.css";
 
 import { FaRegWindowClose } from "react-icons/fa";
 import TextField from "@mui/material/TextField";
@@ -9,54 +16,149 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import { PostImage } from "../components/PostImage";
+import { useDispatch } from "react-redux";
+
+import { updateRecipe } from "../store/reducers/recipes";
 
 export default function PostEdit() {
+  const recipeID = useLoaderData();
+  // const [id, setId] = useState("");
+  const [url, setUrl] = useState(recipeID.imageUrl);
+  const [author, setAuthor] = useState(recipeID.author);
+  const [title, setTitle] = useState(recipeID.title);
+  const [text, setText] = useState(recipeID.text);
+  const [level, setLevel] = useState(recipeID.level);
+  const [preptime, setPreptime] = useState(recipeID.prepTime);
+  const [yields, setYields] = useState(recipeID.yield);
+
+  const [ingredientsArray, setIngredientsArray] = useState(recipeID.ingredient);
+  const [directionArray, setDirectionArray] = useState(recipeID.direction);
+  const dispatch = useDispatch();
+
+  //id generator copied from react router tutorial
+  console.log(ingredientsArray);
   const handleImageSuccess = (imageUrl) => {
     setUrl(imageUrl);
   };
 
+  let handleChangeIng = (i, e) => {
+    let newIngredientValues = [...ingredientsArray];
+    newIngredientValues[i] = e.target.value;
+    setIngredientsArray(newIngredientValues);
+  };
+
+  let addFormFieldsIng = () => {
+    setIngredientsArray([...ingredientsArray, ""]);
+    console.log(ingredientsArray);
+  };
+
+  let removeFormFieldsIng = (i) => {
+    let newIngredientValues = [...ingredientsArray];
+    newIngredientValues.splice(i, 1);
+    setIngredientsArray(newIngredientValues);
+  };
+
+  let handleChangeDirec = (i, e) => {
+    let newDirectionValues = [...directionArray];
+    newDirectionValues[i] = e.target.value;
+    setDirectionArray(newDirectionValues);
+  };
+
+  let addFormFieldsDirec = () => {
+    setDirectionArray([...directionArray, ""]);
+    console.log(directionArray);
+  };
+
+  let removeFormFieldsDirec = (i) => {
+    let newDirectionValues = [...directionArray];
+    newDirectionValues.splice(i, 1);
+    setDirectionArray(newDirectionValues);
+  };
+
+  const handleChangeCategory = (event) => {
+    setLevel(event.target.value);
+  };
+  //buttons function to clickable from unclickable
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    let datetime = new Date();
+    datetime = moment(datetime).format("YYYY-MM-DD");
+
+    dispatch(
+      updateRecipe({
+        id: recipeID.id,
+        title: title,
+        text: text,
+        author: author,
+        level: level,
+        prepTime: preptime,
+        yield: yields,
+        time: datetime,
+        ingredient: ingredientsArray,
+        direction: directionArray,
+        imageUrl: url,
+      })
+    );
+
+    alert("This recipe has been EDITED✍️");
+    // console.log(
+    //   title,
+    //   author,
+    //   text,
+    //   level,
+    //   preptime,
+    //   yields,
+    //   ingredientsArray,
+    //   directionArray,
+    //   url,
+    //   recipeID.id,
+    //   datetime
+    // );
+    // TODO: add a dispatch call to an appropriate redux action here
+  });
+
   return (
     <>
-      <div className="single-recipe">
-        {"< "}Recipes
+      <div className="single-blog">
+        <Link to="/" className="link-back">
+          {"< "}Recipes
+        </Link>
+
         <div className="flex-row newpost-container">
           <h2 className="n-label">Modify information this recipe</h2>
           <div className="new-detail flex-row">
             <div className="add-portion">
-              <form>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor
-                minus quas consequatur eligendi asperiores magnam, quasi rerum,
-                repudiandae aspernatur eum voluptatibus ab vero dolore.
-                Explicabo ex et odio culpa nesciunt.
+              <form onSubmit={handleSubmit}>
                 <FormGroup className="form-format">
                   <div className="separator-box separator-box-column">
                     <h3>Fill-up the information here</h3>
                     <TextField
                       label="Title"
                       name="title"
-                      value="title"
+                      value={title}
                       required
                       margin="dense"
+                      onChange={(event) => setTitle(event.target.value)}
                     />
                     <TextField
                       label="Author"
                       name="author"
-                      value="author"
+                      value={author}
                       required
                       margin="dense"
+                      onChange={(event) => setAuthor(event.target.value)}
                     />
 
                     <TextField
                       label="Text"
                       // multiline
                       minRows={3}
-                      value="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor minus quas consequatur eligendi asperiores magnam, quasi rerum,
-                repudiandae aspernatur eum voluptatibus ab vero dolore. Explicabo ex et odio culpa nesciunt."
+                      value={text}
                       // minRows={2}
                       name="text"
                       required
                       margin="normal"
+                      onChange={(event) => setText(event.target.value)}
                     />
                     <div className="description-section-1">
                       <FormControl
@@ -69,30 +171,34 @@ export default function PostEdit() {
                         <Select
                           labelId="demo-simple-select-autowidth-label"
                           id="demo-simple-select-autowidth"
+                          value={level}
+                          onChange={handleChangeCategory}
                           autoWidth
                           label="Level-Category"
                           style={{
                             fontSize: "1.5rem",
                           }}
                         >
-                          <MenuItem>Easy</MenuItem>
-                          <MenuItem>Medium</MenuItem>
-                          <MenuItem>Hard</MenuItem>
+                          <MenuItem value={"Easy"}>Easy</MenuItem>
+                          <MenuItem value={"Medium"}>Medium</MenuItem>
+                          <MenuItem value={"Hard"}>Hard</MenuItem>
                         </Select>
                       </FormControl>
                       <TextField
                         label="Preparation time"
                         name="Preparation time"
-                        value="1 hour"
+                        value={preptime}
                         required
                         margin="normal"
+                        onChange={(event) => setPreptime(event.target.value)}
                       />
                       <TextField
                         label="Yield"
                         name="Yield"
-                        value="5 serving"
+                        value={yields}
                         required
                         margin="normal"
+                        onChange={(event) => setYields(event.target.value)}
                       />
                     </div>
                   </div>
@@ -101,53 +207,95 @@ export default function PostEdit() {
                     <div className="add-ingredient">
                       <h3>Fill-up the ingredients🍅 here</h3>
                       <br />
-                      <div className="form-inline">
-                        <TextField
-                          label={`Ingredient--quantity`}
-                          name="quantity"
-                          required
-                          value="quantity"
-                          margin="normal"
-                        />
-                        <TextField
-                          className="ingredient-name"
-                          label={`Ingredient--name`}
-                          name="name"
-                          required
-                          value="name"
-                          margin="normal"
-                        />
+                      {ingredientsArray.map((element, index) => (
+                        <div
+                          className="form-inline"
+                          key={`${element}-${index}-ings`}
+                        >
+                          <TextField
+                            label={`Ingredient-${index + 1}-quantity`}
+                            name="quantity"
+                            required
+                            value={element.quantity}
+                            margin="normal"
+                            onChange={(e) => handleChangeIng(index, e)}
+                          />
+                          <TextField
+                            className="ingredient-name"
+                            label={`Ingredient-${index + 1}-name`}
+                            name="name"
+                            required
+                            value={element.name}
+                            margin="normal"
+                            onChange={(e) => handleChangeIng(index, e)}
+                          />
 
-                        <FaRegWindowClose size={30} className="item-cross" />
-                      </div>
-
-                      <Button variant="contained">Add new ingredient</Button>
+                          <FaRegWindowClose
+                            size={30}
+                            className="item-cross"
+                            onClick={() => removeFormFieldsIng(index)}
+                          />
+                        </div>
+                      ))}
+                      <Button
+                        variant="contained"
+                        onClick={() => addFormFieldsIng()}
+                      >
+                        Add new ingredient
+                      </Button>
                     </div>
                     <div className="recipe-image">
                       <figure className="add-image-background">
-                        <PostImage addImageSuccessful={handleImageSuccess} />
+                        {url === "" ? (
+                          <PostImage addImageSuccessful={handleImageSuccess} />
+                        ) : (
+                          <img
+                            src={url}
+                            alt={`image of ${title}`}
+                            className="image-preview"
+                          />
+                        )}
                       </figure>
-                      <FaRegWindowClose size={30} className="item-cross" />
+                      <FaRegWindowClose
+                        size={30}
+                        className="item-cross"
+                        onClick={() => setUrl("")}
+                      />
                     </div>
                   </div>
                   <div className="separator-box">
                     <h3>Fill-up the directions🧑‍🍳 here</h3>
-                    <div className="form-inline">
-                      <h3></h3>
-                      <textarea
-                        wrap="hard"
-                        rows="3"
-                        label={`Direction--1}`}
-                        name="direction"
-                        required
-                        value="direction1"
-                        margin="dense" // multiline minRows={3}
-                        className="form-inline-oneline ing-label"
-                      ></textarea>
-                      <FaRegWindowClose size={30} className="item-cross" />
-                    </div>
-
-                    <Button variant="contained"> Add new direction</Button>
+                    {directionArray.map((element, index) => (
+                      <div
+                        className="form-inline"
+                        key={`${element}-${index}-key`}
+                      >
+                        <h3>{index + 1}.</h3>
+                        <textarea
+                          wrap="hard"
+                          rows="3"
+                          label={`Direction-${index + 1}`}
+                          name="direction"
+                          required
+                          value={element}
+                          margin="dense" // multiline minRows={3}
+                          className="form-inline-oneline ing-label"
+                          onChange={(e) => handleChangeDirec(index, e)}
+                        ></textarea>
+                        <FaRegWindowClose
+                          size={30}
+                          className="item-cross"
+                          onClick={() => removeFormFieldsDirec(index)}
+                        />
+                      </div>
+                    ))}
+                    <Button
+                      variant="contained"
+                      onClick={() => addFormFieldsDirec()}
+                    >
+                      {" "}
+                      Add new direction
+                    </Button>
                   </div>
 
                   <div className="button-section button-format"></div>
