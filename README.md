@@ -8,6 +8,15 @@ following versions:
 
 > Version 1.1: Design the website
 
+initial-design commits
+
+ <li>feature-recipe-detail</li>
+ <li>feature-recipe-create</li>
+ <li>feature-recipe-edit</li>
+
+Release version 1.1. To do this, type “git flow release finish '1.1'” with the name
+tag 1.1 and merge it with the development branch. Include the release information when merging.
+
 > Version 1.2: Implement functions to add, edit, and delete recipes
 
 > Version 1.3: Implement filter and search functions
