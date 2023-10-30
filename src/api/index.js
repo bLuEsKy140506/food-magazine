@@ -1,7 +1,7 @@
 //---WORKABLE BACK-END STRUCTURE FROM PREVIOUS IPA
 //---I JUST COPIED THIS, SINCE ITS WORK IS THE SAME LIKE (POSTING, ADDING, MODIFY, REMOVING)
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://food-magazine-alpha.vercel.app/";
 
 export const recipesAPI = {
   //FETCHING --------------------------
